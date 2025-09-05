@@ -25,7 +25,7 @@ class BasePage:
         element = self.find_element(locator)
         if element:
             element.clear()
-            element.sent_keys(text)
+            element.send_keys(text)
 
     def get_title(self):
         return self.driver.title
