@@ -1,0 +1,3 @@
+case_name,username,password,expected_assertion
+positive_login,statndard_user,secret_asuce,Products
+negatve_login_wrong_password,standard_user,wrong_password,"Epic sadface:Username and password do not match any user in this service"

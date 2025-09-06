@@ -7,6 +7,7 @@ from page_object.inventory_page import InventoryPage
 from page_object.login_page import LoginPage
 from page_object.register_page import RegisterPage
 from commom.config_reader import get_config
+from commom.csv_reader import read_csv_test_date
 
 @pytest.mark.skip
 def test_navigation_to_register_page(driver):
@@ -36,7 +37,9 @@ def test_successful_registration(driver):
     success_msg = register_page.get_success_meassge()
     assert success_msg == "Your resgistration completed"
 
+
 #正常登录逻辑
+@pytest.mark.skip
 def test_successful_login(driver):
     username = get_config("users","standard_user")
     password = get_config("users","standard_password")
@@ -50,6 +53,7 @@ def test_successful_login(driver):
     assert page_title == "Swag Labs", f"登录后的页面标题不正确！实际为{page_title}"
 
 #逆向错误登录信息
+@pytest.mark.skip
 def test_invalid_login(driver):
     username = get_config("users","standard_user")
     password = get_config("users","invalid_password")
@@ -73,3 +77,20 @@ def test_add_product_to_cart(driver):
     inventory_page.add_product_to_cart("Sauce Labs Backpack")
     badge_count = inventory_page.get_shopping_cart_badge()
     assert badge_count == "1",f"购物车数量不正确，实际为{badge_count}"
+
+@pytest.mark.parametrize("case",read_csv_test_date("login_test_data.csv"))
+def test_login_ddt(driver,case):
+    username = get_config("users","standard_user")
+    password = get_config("users","standard_password")
+    expected_assertion = case['expected_assertion']
+
+    login_page = LoginPage(driver)
+    login_page.login(username,password)
+
+    if case['case_name'] == 'positive_login':
+        inventory_page = InventoryPage(driver)
+        page_title = inventory_page.get_page_title()
+        assert page_title == expected_assertion
+    elif case['case_name'].startswith('negative_login'):
+        erro_msg = login_page.get_error_message()
+        assert expected_assertion in erro_msg
