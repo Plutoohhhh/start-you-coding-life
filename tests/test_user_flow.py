@@ -36,6 +36,7 @@ def test_successful_registration(driver):
     success_msg = register_page.get_success_meassge()
     assert success_msg == "Your resgistration completed"
 
+#正常登录逻辑
 def test_successful_login(driver):
     username = get_config("users","standard_user")
     password = get_config("users","standard_password")
@@ -46,4 +47,29 @@ def test_successful_login(driver):
     inventory_page = InventoryPage(driver)
     page_title = inventory_page.get_title()
 
-    assert page_title == "PRODUCTS", f"登录后的页面标题不正确！实际为{page_title}"
+    assert page_title == "Swag Labs", f"登录后的页面标题不正确！实际为{page_title}"
+
+#逆向错误登录信息
+def test_invalid_login(driver):
+    username = get_config("users","standard_user")
+    password = get_config("users","invalid_password")
+
+    login_page = LoginPage(driver)
+    login_page.login(username,password)
+
+    erro_message = login_page.get_error_message()
+    expected_error_txt = "Epic sadface: Username and password do not match any user in this service"
+    assert expected_error_txt in erro_message,f"错误信息不匹配，实际为{erro_message}"
+
+def test_add_product_to_cart(driver):
+    username = get_config("users","standard_user")
+    password = get_config("users","standard_password")
+    login_page = LoginPage(driver)
+    login_page.login(username,password)
+
+    #开始测试
+    inventory_page = InventoryPage(driver)
+
+    inventory_page.add_product_to_cart("Sauce Labs Backpack")
+    badge_count = inventory_page.get_shopping_cart_badge()
+    assert badge_count == "1",f"购物车数量不正确，实际为{badge_count}"

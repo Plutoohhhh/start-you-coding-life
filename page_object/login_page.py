@@ -3,15 +3,18 @@ from commom.base_page import BasePage
 from commom.config_reader import get_config
 
 class LoginPage(BasePage):
-    _username_input = (By.ID,"username")
+    _username_input = (By.ID,"user-name")
     _password_input = (By.ID,"password")
     _login_button = (By.ID,"login-button")
-    _error_message = (By.CSS_SELECTOR,"h3[data-test='error]")
+    _error_message = (By.CSS_SELECTOR,"h3[data-test='error']")
 
     def __init__(self,driver):
         base_url = get_config("web","base_url")
         driver.get(base_url)
         super().__init__(driver)
+
+
+
 
     def login(self,username,password):
 
