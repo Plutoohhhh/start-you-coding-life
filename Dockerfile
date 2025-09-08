@@ -23,4 +23,6 @@ ENV HEADLESS=true
 CMD ["pytest"]
 
 #docker build -t my-automation-project:1.0
-#docker run --rm -v "$(pwd)/reports":/app/reports my-automation-project:1.0
+#docker run --rm --network=host -v "$(pwd)/reports":/app/reports my-automation-project:1.0
+
+#docker run -it --rm my-automation-project:1.0 /bin/bash
