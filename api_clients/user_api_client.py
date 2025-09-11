@@ -2,7 +2,7 @@ import requests
 from commom.config_reader import get_config
 
 class UserApiClient:
-
+#####
     def __init__(self):
         self.base_url = get_config("api","base_url")
 
