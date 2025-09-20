@@ -14,3 +14,7 @@ def test_get_user_list_and_validate():
     assert response_data['page'] == 2
     assert len(response_data['data']) == response_data['per_page'],"响应数据中的用户数量与per_page字段不符"
     assert response_data['data'][0]['email'].endswith('@reqres.in'),"第一个用户的email格式有误"
+
+def test_for_test():
+    client = UserApiClient()
+    response = client.get_list_of_users(page_number=3)

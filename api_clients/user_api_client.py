@@ -12,3 +12,7 @@ class UserApiClient:
 
         response = requests.get(url,params=params)
         return response
+
+    def get_info(self):
+        url = f"{self.base_url}/"
+        

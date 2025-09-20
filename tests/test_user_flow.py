@@ -65,30 +65,21 @@ def test_invalid_login(driver):
     expected_error_txt = "Epic sadface: Username and password do not match any user in this service"
     assert expected_error_txt in erro_message,f"错误信息不匹配，实际为{erro_message}"
 
-def test_add_product_to_cart(driver):
-    username = get_config("users","standard_user")
-    password = get_config("users","standard_password")
-    login_page = LoginPage(driver)
-    login_page.login(username,password)
-
+def test_add_product_to_cart(loggin_in_driver):
     #开始测试
-    inventory_page = InventoryPage(driver)
+    inventory_page = InventoryPage(loggin_in_driver)
 
     inventory_page.add_product_to_cart("Sauce Labs Backpack")
     badge_count = inventory_page.get_shopping_cart_badge()
     assert badge_count == "1",f"购物车数量不正确，实际为{badge_count}"
 
 @pytest.mark.parametrize("case",read_csv_test_date("login_test_data.csv"))
-def test_login_ddt(driver,case):
-    username = get_config("users","standard_user")
-    password = get_config("users","standard_password")
+def test_login_ddt(loggin_in_driver,case):
     expected_assertion = case['expected_assertion']
-
-    login_page = LoginPage(driver)
-    login_page.login(username,password)
+    login_page = LoginPage(loggin_in_driver)
 
     if case['case_name'] == 'positive_login':
-        inventory_page = InventoryPage(driver)
+        inventory_page = InventoryPage(loggin_in_driver)
         page_title = inventory_page.get_page_title()
         assert page_title == expected_assertion
     elif case['case_name'].startswith('negative_login'):

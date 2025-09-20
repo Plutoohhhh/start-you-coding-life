@@ -1,5 +1,7 @@
 import pytest
 from commom.driver_factory import get_driver
+from commom.config_reader import get_config
+from page_object.login_page import LoginPage
 
 @pytest.fixture(scope="function")
 #scope表示每一个测试函数都会执行一次这个fixture
