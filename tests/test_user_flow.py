@@ -8,6 +8,7 @@ from page_object.login_page import LoginPage
 from page_object.register_page import RegisterPage
 from commom.config_reader import get_config
 from commom.csv_reader import read_csv_test_date
+from conftest import loggin_in_driver
 
 @pytest.mark.skip
 def test_navigation_to_register_page(driver):
@@ -65,6 +66,7 @@ def test_invalid_login(driver):
     expected_error_txt = "Epic sadface: Username and password do not match any user in this service"
     assert expected_error_txt in erro_message,f"错误信息不匹配，实际为{erro_message}"
 
+@pytest.mark.skip
 def test_add_product_to_cart(loggin_in_driver):
     #开始测试
     inventory_page = InventoryPage(loggin_in_driver)

@@ -1,3 +1,5 @@
+import pytest
+
 from api_clients.user_api_client import UserApiClient
 
 def test_get_user_list_and_validate():
@@ -18,3 +20,20 @@ def test_get_user_list_and_validate():
 def test_for_test():
     client = UserApiClient()
     response = client.get_list_of_users(page_number=3)
+
+def test_login():
+    client = UserApiClient()
+    response = client.loggin("eve.holt@reqres.in", "cityslicka")
+
+    assert response.status_code == 200,f"预期状态码为200，实际为{response.status_code}"
+    response_data = response.json()
+    assert 'token' in response_data
+
+def test_resgister():
+    client = UserApiClient()
+    response = client.register("eve.holt@reqres","cityslicka")
+
+    assert response.status_code == 200 ,f"预期状态码为200，实际为{response.status_code}"
+    response_data = response.json()
+    assert 'token' in response_data
+    assert 'id' in response_data

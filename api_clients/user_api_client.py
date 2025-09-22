@@ -15,4 +15,15 @@ class UserApiClient:
 
     def get_info(self):
         url = f"{self.base_url}/"
-        
+
+    def loggin(self,email,password):
+        data = {"email":email,"password":password}
+        url = f"{self.base_url}/api/login"
+        response = requests.post(url,json=data)
+        return response
+
+    def register(self,email,password):
+        data = {"email": email, "password": password}
+        url = f"{self.base_url}/api/register"
+        response = requests.post(url,json=data)
+        return response
